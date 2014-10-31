@@ -16,6 +16,7 @@ mongoose.connect(mongoUri);
 require('./models/shit');
 require('./models/user');
 require('./models/vote');
+require('./models/comment');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');

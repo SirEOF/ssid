@@ -16,16 +16,31 @@
 
 <div ng-repeat="shit in shits">
   <div class="well well-sm">
-
     <div class="pull-left" style="text-align: center">
       <span ng-click="upvote(shit);" style='font-size: 24px; color: green' class="glyphicon glyphicon-hand-up"></span> <br />
       <p> {{shit.score}} </p>
       <span ng-click="downvote(shit);" style="font-size: 24px; color: red" class="glyphicon glyphicon-hand-down"></span>
     </div>
-
-    <p ng-bind="shit.body">
-    <p> {{shit.ts | fromNow}} </p>
+    <p style="padding-left: 30px; font-size: 24px; font-weight: 200" ng-bind="shit.body">
+    <p class="pull-right" ng-show="!shit.commentMode">
+      <a ng-click="shit.commentMode = !shit.commentMode"> Show Comments ({{shit.comments.length}}) </a>
+      {{shit.ts | fromNow}}
+    </p>
     <span class="clearfix"> </span>
+
+    <div ng-show="shit.commentMode">
+
+      <div ng-repeat="comment in shit.comments | orderBy:'ts':true" ng-clas="well well-sm" style="padding: 20px; text-align: right; border: 1px solid">
+        {{comment.body}} </br/>
+        {{comment.ts |fromNow }}
+      </div>
+
+      <textarea ng-model="shit.comment.body" class="form-control"></textarea>
+      <button ng-click="addComment(shit)" class="btn btn-primary pull-right">Save Comment</button>
+      <span class="clearfix"> </span>
+
+    </div>
+
 
   </div>
 </div>
