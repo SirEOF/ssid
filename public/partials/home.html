@@ -1,3 +1,9 @@
+<div class="btn-group pull-right">
+  <button type="button" class="btn btn-primary" ng-class="{active: shitMode=='new'}" ng-click="shitMode = 'new'"> New </button>
+  <button type="button" class="btn btn-primary" ng-class="{active: shitMode=='top'}" ng-click="shitMode = 'top'"> Top </button>
+  <button type="button" class="btn btn-primary" ng-class="{active: shitMode=='controversial'}" ng-click="shitMode = 'controversial'"> Controversial </button>
+</div>
+
 
 <button ng-show="!newShitMode" ng-click="newShitMode = !newShitMode" class="btn btn-success"> I did something stuipid. </button>
 
