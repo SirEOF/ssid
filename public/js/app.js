@@ -46,6 +46,9 @@ app.controller('HomeController', function($scope, Shit) {
   $scope.postShit = function() {
     $scope.newShit.$save();
     $scope.newShit = new Shit();
+    $scope.shitMode = 'new';
+    $scope.newShitMode = false;
+    loadShits();
   };
 
   $scope.upvote = function(shit) {
