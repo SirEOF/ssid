@@ -20,7 +20,7 @@ app.service('Shit', function($resource) {
     downvote: {url: '/api/shit/:id/downvote', method: 'POST'},
     new: {url: '/api/shit/new', method: 'GET', isArray: true },
     top: {url: '/api/shit/top', method: 'GET', isArray: true},
-    controversial: {url: '/api/shit/top', method: 'GET', isArray: true}});
+    controversial: {url: '/api/shit/controversial', method: 'GET', isArray: true}});
 });
 
 app.controller('HomeController', function($scope, Shit) {
@@ -28,18 +28,19 @@ app.controller('HomeController', function($scope, Shit) {
   $scope.shitMode = 'new';
   $scope.newShitMode = false;
 
-
-  $scope.$watch('shitMode', function(newVal) {
-    if (newVal === 'new') {
-      $scope.shits = Shit.new();
-    } else if (newVal === 'top') {
-      $scope.shits = Shit.top();
-    } else if (newVal === 'controversial') {
-      $scope.shits = Shit.controversial();
-    }
-
+  $scope.$watch('shitMode', function() {
+    loadShits();
   });
 
+  function loadShits() {
+    if ($scope.shitMode === 'new') {
+      $scope.shits = Shit.new();
+    } else if ($scope.shitMode === 'top') {
+      $scope.shits = Shit.top();
+    } else if ($scope.shitMode === 'controversial') {
+      $scope.shits = Shit.controversial();
+    }
+  }
 
   $scope.newShit = new Shit();
   $scope.postShit = function() {
@@ -49,10 +50,12 @@ app.controller('HomeController', function($scope, Shit) {
 
   $scope.upvote = function(shit) {
     shit.$upvote();
+    //loadShits();
   };
 
   $scope.downvote = function(shit) {
     shit.$downvote();
+    //loadShits();
   };
 
 });

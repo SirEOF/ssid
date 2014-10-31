@@ -31,11 +31,10 @@ router.get('/shit/new', function (req, res, next) {
 
 router.get('/shit/top', function (req, res, next) {
   // XXX Pagination
-  Shit.find().sort({count : -1}).exec(function(err, shits) {
+  Shit.find().sort({score : -1}).exec(function(err, shits) {
     if (err) {
       return next(err);
     }
-
     res.json(shits);
   });
 });
