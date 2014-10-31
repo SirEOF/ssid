@@ -15,7 +15,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
  });
 
 app.service('Shit', function($resource) {
-  return $resource('/api/shit');
+  return $resource('/api/shit/:id', {id: '@_id'}, {upvote: {url: '/api/shit/:id/upvote', method: 'POST'}, downvote: {url: '/api/shit/:id/downvote', method: 'POST'}});
 });
 
 app.controller('HomeController', function($scope, Shit) {
@@ -27,6 +27,15 @@ app.controller('HomeController', function($scope, Shit) {
     $scope.newShit.$save();
     $scope.newShit = new Shit();
   };
+
+  $scope.upvote = function(shit) {
+    shit.$upvote();
+  };
+
+  $scope.downvote = function(shit) {
+    shit.$downvote();
+  };
+
 });
 
 app.filter('fromNow', function() {

@@ -12,9 +12,9 @@
   <div class="well well-sm">
 
     <div class="pull-left" style="text-align: center">
-      <span style='font-size: 24px; color: green' class="glyphicon glyphicon-hand-up"></span> <br />
+      <span ng-click="upvote(shit);" style='font-size: 24px; color: green' class="glyphicon glyphicon-hand-up"></span> <br />
       <p> {{shit.score}} </p>
-      <span style="font-size: 24px; color: red" class="glyphicon glyphicon-hand-down"></span>
+      <span ng-click="downvote(shit);" style="font-size: 24px; color: red" class="glyphicon glyphicon-hand-down"></span>
     </div>
 
     <p ng-bind="shit.body">
