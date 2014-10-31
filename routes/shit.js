@@ -17,6 +17,41 @@ router.get('/shit', function (req, res, next) {
   });
 });
 
+router.get('/shit/new', function (req, res, next) {
+  // XXX Pagination
+  Shit.find().sort({ts : -1}).exec(function(err, shits) {
+    if (err) {
+      return next(err);
+    }
+
+    res.json(shits);
+  });
+});
+
+
+router.get('/shit/top', function (req, res, next) {
+  // XXX Pagination
+  Shit.find().sort({count : -1}).exec(function(err, shits) {
+    if (err) {
+      return next(err);
+    }
+
+    res.json(shits);
+  });
+});
+
+
+router.get('/shit/controversial', function (req, res, next) {
+  // XXX Pagination
+  Shit.find().sort({up:1, down: 1}).exec(function(err, shits) {
+    if (err) {
+      return next(err);
+    }
+
+    res.json(shits);
+  });
+});
+
 router.post('/shit', function(req, res, next) {
   // XXX MUST BE LOGGED IN
 
@@ -36,7 +71,7 @@ router.post('/shit', function(req, res, next) {
 });
 
 router.post('/shit/:shit_id/upvote', function(req, res, next) {
-  
+
 });
 
 module.exports = router;
