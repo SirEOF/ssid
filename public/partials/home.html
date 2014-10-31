@@ -1,0 +1,25 @@
+
+<button ng-show="!newShitMode" ng-click="newShitMode = !newShitMode" class="btn btn-success"> I did something stuipid. </button>
+
+<div class="well" ng-show="newShitMode">
+  <textarea class="form-control" style="width: 100%" ng-model="newShit.body"></textarea>
+  <button ng-click="postShit()" class="btn btn-primary pull-right"> I did this! </button>
+  <span class="clearfix"> </span>
+</div>
+<br /> <br />
+
+<div ng-repeat="shit in shits">
+  <div class="well well-sm">
+
+    <div class="pull-left" style="text-align: center">
+      <span style='font-size: 24px; color: green' class="glyphicon glyphicon-hand-up"></span> <br />
+      <p> {{shit.score}} </p>
+      <span style="font-size: 24px; color: red" class="glyphicon glyphicon-hand-down"></span>
+    </div>
+
+    <p ng-bind="shit.body">
+    <p> {{shit.ts | fromNow}} </p>
+    <span class="clearfix"> </span>
+
+  </div>
+</div>
