@@ -32,8 +32,6 @@ router.get('/shit/:shitId/comment', function(req, res, next){
     if (err) {
       return next(err);
     }
-
-    console.log(results.comments);
     res.json(results.comments);
   });
 });

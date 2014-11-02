@@ -79,6 +79,21 @@ app.controller('HomeController', function($scope, Shit, Comment) {
     });
   };
 
+  $scope.progress = 0;
+  $scope.setProgress = function(p) {
+    console.log("PROGRESS", p);
+    $scope.$apply(function() {
+      $scope.progress = p;
+    });
+  };
+
+  $scope.addPicture = function(url) {
+    console.log("ADD PICTURE", url);
+    $scope.progress = 0;
+    $scope.newShit.img = url;
+    $scope.$apply();
+  };
+
 });
 
 app.filter('fromNow', function() {

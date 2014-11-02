@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ShitSchema = new Schema({
+  title: String,
   body: String,
   img: String,
   ts: {type: Date, default: Date.now},
@@ -11,4 +12,3 @@ var ShitSchema = new Schema({
 });
 
 module.exports = mongoose.model('Shit', ShitSchema);
-  

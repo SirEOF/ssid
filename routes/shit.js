@@ -57,7 +57,7 @@ router.post('/shit', function(req, res, next) {
   console.log(req.body);
 
   var s = new Shit(req.body);
-  if (!s.body || s.body === '') {
+  if (!s.body && !s.title && !s.img && !s.youtube && !s.vine) {
     return next('shit needs content');
   }
   s.save(function(err) {
