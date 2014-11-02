@@ -5,6 +5,10 @@ var ShitSchema = new Schema({
   title: String,
   body: String,
   img: String,
+
+  youtube: String,
+  vine: String,
+
   ts: {type: Date, default: Date.now},
   up: {type: Number, default: 0},
   down: {type: Number, default: 0},

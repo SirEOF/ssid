@@ -2,6 +2,7 @@
 
 var express = require('express');
 var router = express.Router();
+var url = require('url');
 
 var mongoose = require('mongoose');
 var Shit = mongoose.model('Shit');
@@ -56,7 +57,24 @@ router.post('/shit', function(req, res, next) {
 
   console.log(req.body);
 
+
   var s = new Shit(req.body);
+
+  if (s.youtube) {
+    var youtubeURL = url.parse(s.youtube, true);
+    console.log(youtubeURL);
+    if (youtubeURL.query.v) {
+      s.youtube = youtubeURL.query.v;
+    } else {
+      var pathname = youtubeURL.pathname;
+      s.youtube = pathname.split('/')[pathname.split('/').length - 1];
+    }
+
+    if (s.youtube.indexOf('.') > -1 || s.youtube.indexOf(':') > -1) {
+      return next('invalid youtube');
+    }
+  }
+
   if (!s.body && !s.title && !s.img && !s.youtube && !s.vine) {
     return next('shit needs content');
   }
