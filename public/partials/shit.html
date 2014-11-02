@@ -1,47 +1,55 @@
+<div class="panel panel-default">
+  <div ng-click="goto(shit);" class="panel-heading">
+    <h3 class="panel-title">{{shit.title}}
 
-<div class="well well-sm">
-  <div class="pull-left" style="text-align: center">
-    <span ng-click="upvote(shit);" style='font-size: 24px; color: green' class="glyphicon glyphicon-hand-up"></span> <br />
-    <p> {{shit.score}} </p>
-    <span ng-click="downvote(shit);" style="font-size: 24px; color: red" class="glyphicon glyphicon-hand-down"></span>
+    <span class="pull-right">
+      <i class="fa fa-facebook" style="color:#3B5998"></i> &nbsp;
+      <i class="fa fa-twitter" style="color:#55ACEE"> </i>&nbsp;
+      <i class="fa fa-link"> </i>
+    </span>
+
+    </h3>
+    <span class="clearfix"> </span>
   </div>
+  <div class="panel-body">
 
-
-  <div ng-show="shit.title">
-    <p style="font-size: 24px">{{shit.title}}</p>
-  </div>
-
-  <div style="padding-left: 30px; font-size: 24px; font-weight: 200">
-
-    <div ng-show="shit.body">
-      <p ng-bind="shit.body"></p>
+    <div class="pull-left" style="text-align: center">
+      <span ng-click="upvote(shit);" style='font-size: 24px; color: green' class="glyphicon glyphicon-hand-up"></span> <br />
+      <p> {{shit.score}} </p>
+      <span ng-click="downvote(shit);" style="font-size: 24px; color: red" class="glyphicon glyphicon-hand-down"></span>
     </div>
 
-    <div ng-if="shit.img">
+    <p style="font-size: 24px; margin-left: 40px; font-weight: 300"> {{shit.body}} </p>
+    <div ng-if="shit.img" style="text-align: center;">
       <img ng-src="{{shit.img}}">
     </div>
 
-    <div ng-if="shit.youtube">
+    <div ng-if="shit.youtube" style="text-align: center;">
       <iframe width="560" height="315" ng-src="{{shit.youtube | trusted}}" frameborder="0" allowfullscreen></iframe>
     </div>
   </div>
+  <div class="panel-footer">
 
-  <span class="clearfix"> </span>
-  <div id="socialMedia" class="pull-right">
-    <div class="fb-like" data-href="{{window.location.href}}" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
-    <a class="twitter-share-button" href="https://twitter.com/share" data-text="Stuipid Shit I Do: {{shit.title}} {{window.location.herf}}"> Tweet </a>
-    <script type="text/javascript"> window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
-    </script>
+
+    <!-- Comments -->
+    <p class="pull-right" ng-show="!shit.commentMode" style="margin: 0px">
+      <a ng-click="shit.commentMode = !shit.commentMode"> Show Comments ({{shit.comments.length}}) </a> </p>
+    <span class="clearfix"> </span>
+    <div ng-if="shit.commentMode" style="width: 100%; text-align: right">
+
+
+      <div ng-repeat="comment in shit.comments | orderBy:'ts':true" style="padding: 0px; margin: 0px" >
+        {{comment.body}} </br/> {{comment.ts |fromNow }} <a href="/u/xc0nradx"> xc0nradx </a>
+        <hr />
+      </div>
+
+
+      <div class="form-group" style="text-align: left">
+        <label> Comment </label>
+        <textarea ng-model="shit.comment.body" class="form-control"></textarea>
+      </div>
+      <button ng-click="addComment(shit)" class="btn btn-primary pull-right">Save Comment</button>
+      <span class="clearfix"> </span>
+    </div>
   </div>
-
-  <span class="clearfix"> </span>
-
-  <div ng-repeat="comment in shit.comments | orderBy:'ts':true" ng-clas="well well-sm" style="padding: 20px; text-align: right; border: 1px solid">
-    {{comment.body}} </br/>
-    {{comment.ts |fromNow }}
-  </div>
-
-  <textarea ng-model="shit.comment.body" class="form-control"></textarea>
-  <button ng-click="addComment(shit)" class="btn btn-primary pull-right">Save Comment</button>
-  <span class="clearfix"> </span>
 </div>
