@@ -14,7 +14,6 @@
     <textarea class="form-control" style="width: 100%" ng-model="newShit.body"></textarea>
   </div>
 
-
   <hr />
   <div style="text-align: center">
     <p> - OR - </p>
@@ -24,7 +23,6 @@
     <label>Title</label>
     <input type="text" ng-model="newShit.title" placeholder="title" class="form-control"> </input>
   </div>
-
 
   <div class="row">
     <div class="col-md-4">
@@ -67,6 +65,7 @@
 
 <div ng-repeat="shit in shits">
   <div class="well well-sm">
+
     <div class="pull-left" style="text-align: center">
       <span ng-click="upvote(shit);" style='font-size: 24px; color: green' class="glyphicon glyphicon-hand-up"></span> <br />
       <p> {{shit.score}} </p>
@@ -74,22 +73,24 @@
     </div>
 
 
-    <div ng-show="shit.title">
-      <p style="font-size: 24px">{{shit.title}}</p>
-    </div>
-
-    <div style="padding-left: 30px; font-size: 24px; font-weight: 200">
-
-      <div ng-show="shit.body">
-        <p ng-bind="shit.body"></p>
+    <div ng-click="goto(shit);">
+      <div ng-show="shit.title">
+        <p style="font-size: 24px">{{shit.title}}</p>
       </div>
 
-      <div ng-if="shit.img">
-        <img ng-src="{{shit.img}}">
-      </div>
+      <div style="padding-left: 30px; font-size: 24px; font-weight: 200">
 
-      <div ng-if="shit.youtube">
-        <iframe width="560" height="315" ng-src="{{shit.youtube | trusted}}" frameborder="0" allowfullscreen></iframe>
+        <div ng-show="shit.body">
+          <p ng-bind="shit.body"></p>
+        </div>
+
+        <div ng-if="shit.img">
+          <img ng-src="{{shit.img}}">
+        </div>
+
+        <div ng-if="shit.youtube">
+          <iframe width="560" height="315" ng-src="{{shit.youtube | trusted}}" frameborder="0" allowfullscreen></iframe>
+        </div>
       </div>
 
     </div>

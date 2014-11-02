@@ -11,6 +11,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/',
       templateUrl: 'partials/home.html',
       controller: 'HomeController'
+    })
+
+    .state('shit', {
+      url: '/s/:shitId',
+      templateUrl: 'partials/shit.html',
+      controller: 'ShitController'
     });
  });
 
@@ -30,7 +36,34 @@ app.service('Comment', function($resource) {
   return $resource('/api/shit/:shitId/comment/:id', {id: '@_id', shitId: '@shit'});
 });
 
-app.controller('HomeController', function($scope, Shit, Comment) {
+app.controller('ShitController', function($scope, Shit, Comment, $stateParams) {
+  $scope.shit = Shit.get({id: $stateParams.shitId}, function(shit){
+    $scope.shit.comments = Comment.query({shitId: shit._id});
+    shit.comment = new Comment({shitId: shit._id});
+
+  });
+
+  $scope.upvote = function(shit) {
+    shit.$upvote();
+    //loadShits();
+  };
+
+  $scope.downvote = function(shit) {
+    shit.$downvote();
+    //loadShits();
+  };
+
+  $scope.addComment = function(shit) {
+    shit.comment.$save({shitId: shit._id}, function() {
+      shit.comments = Comment.query({ shitId: shit._id});
+      shit.comment = new Comment({shitId: shit._id});
+    });
+  };
+
+
+});
+
+app.controller('HomeController', function($scope, Shit, Comment, $state) {
 
   $scope.shitMode = 'new';
   $scope.newShitMode = false;
@@ -52,6 +85,11 @@ app.controller('HomeController', function($scope, Shit, Comment) {
       $scope.shits = out;
     });
   }
+
+
+  $scope.goto = function(s) {
+    $state.go('shit', {shitId: s._id});
+  };
 
   $scope.newShit = new Shit();
   $scope.postShit = function() {

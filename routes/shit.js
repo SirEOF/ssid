@@ -29,7 +29,6 @@ router.get('/shit/new', function (req, res, next) {
   });
 });
 
-
 router.get('/shit/top', function (req, res, next) {
   // XXX Pagination
   Shit.find().sort({score : -1}).exec(function(err, shits) {
@@ -39,7 +38,6 @@ router.get('/shit/top', function (req, res, next) {
     res.json(shits);
   });
 });
-
 
 router.get('/shit/controversial', function (req, res, next) {
   // XXX Pagination
@@ -52,13 +50,21 @@ router.get('/shit/controversial', function (req, res, next) {
   });
 });
 
+router.get('/shit/:id', function(req, res, next) {
+  Shit.findOne({_id: req.params.id }, function(err, shit){
+    if (err) {
+      return next(err);
+    }
+
+    res.json(shit);
+  });
+});
+
 router.post('/shit', function(req, res, next) {
   // XXX MUST BE LOGGED IN
   // XXX Check embedded security
 
   console.log(req.body);
-
-
   var s = new Shit(req.body);
 
   if (s.youtube) {
@@ -88,10 +94,6 @@ router.post('/shit', function(req, res, next) {
 
     return res.send('Okay');
   });
-});
-
-router.post('/shit/:shit_id/upvote', function(req, res, next) {
-
 });
 
 module.exports = router;

@@ -1,0 +1,47 @@
+
+<div class="well well-sm">
+  <div class="pull-left" style="text-align: center">
+    <span ng-click="upvote(shit);" style='font-size: 24px; color: green' class="glyphicon glyphicon-hand-up"></span> <br />
+    <p> {{shit.score}} </p>
+    <span ng-click="downvote(shit);" style="font-size: 24px; color: red" class="glyphicon glyphicon-hand-down"></span>
+  </div>
+
+
+  <div ng-show="shit.title">
+    <p style="font-size: 24px">{{shit.title}}</p>
+  </div>
+
+  <div style="padding-left: 30px; font-size: 24px; font-weight: 200">
+
+    <div ng-show="shit.body">
+      <p ng-bind="shit.body"></p>
+    </div>
+
+    <div ng-if="shit.img">
+      <img ng-src="{{shit.img}}">
+    </div>
+
+    <div ng-if="shit.youtube">
+      <iframe width="560" height="315" ng-src="{{shit.youtube | trusted}}" frameborder="0" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <span class="clearfix"> </span>
+  <div id="socialMedia" class="pull-right">
+    <div class="fb-like" data-href="{{window.location.href}}" data-layout="button" data-action="like" data-show-faces="true" data-share="true"></div>
+    <a class="twitter-share-button" href="https://twitter.com/share" data-text="Stuipid Shit I Do: {{shit.title}} {{window.location.herf}}"> Tweet </a>
+    <script type="text/javascript"> window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
+    </script>
+  </div>
+
+  <span class="clearfix"> </span>
+
+  <div ng-repeat="comment in shit.comments | orderBy:'ts':true" ng-clas="well well-sm" style="padding: 20px; text-align: right; border: 1px solid">
+    {{comment.body}} </br/>
+    {{comment.ts |fromNow }}
+  </div>
+
+  <textarea ng-model="shit.comment.body" class="form-control"></textarea>
+  <button ng-click="addComment(shit)" class="btn btn-primary pull-right">Save Comment</button>
+  <span class="clearfix"> </span>
+</div>
