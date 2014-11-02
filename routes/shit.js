@@ -54,6 +54,7 @@ router.get('/shit/controversial', function (req, res, next) {
 
 router.post('/shit', function(req, res, next) {
   // XXX MUST BE LOGGED IN
+  // XXX Check embedded security
 
   console.log(req.body);
 
@@ -73,6 +74,8 @@ router.post('/shit', function(req, res, next) {
     if (s.youtube.indexOf('.') > -1 || s.youtube.indexOf(':') > -1) {
       return next('invalid youtube');
     }
+
+    s.youtube = '//www.youtube.com/embed/' + s.youtube;
   }
 
   if (!s.body && !s.title && !s.img && !s.youtube && !s.vine) {
