@@ -71,7 +71,12 @@
     <div ng-repeat="shit in shits">
       <div class="panel panel-default">
         <div ng-click="goto(shit);" class="panel-heading">
-          <h3 class="panel-title">{{shit.title}}</h3>
+          <h3 class="panel-title">{{shit.title}}
+
+          <span class="pull-right"> <span class="glyphicon glyphicon-link"></span> </span>
+
+          </h3>
+          <span class="clearfix"> </span>
         </div>
         <div class="panel-body">
 
@@ -89,18 +94,29 @@
           <div ng-if="shit.youtube" style="text-align: center;">
             <iframe width="560" height="315" ng-src="{{shit.youtube | trusted}}" frameborder="0" allowfullscreen></iframe>
           </div>
+        </div>
+        <div class="panel-footer">
+
 
           <!-- Comments -->
           <p class="pull-right" ng-show="!shit.commentMode" style="margin: 0px">
-            <a ng-click="shit.commentMode = !shit.commentMode"> Show Comments ({{shit.comments.length}}) </a> {{shit.ts | fromNow}} </p>
+            <a ng-click="shit.commentMode = !shit.commentMode"> Show Comments ({{shit.comments.length}}) </a> </p>
           <span class="clearfix"> </span>
-          <div ng-if="shit.commentMode">
+          <div ng-if="shit.commentMode" style="width: 100%; text-align: right">
 
-            <div ng-repeat="comment in shit.comments | orderBy:'ts':true" ng-clas="well well-sm" style="padding: 20px; text-align: right; border: 1px solid">
-              {{comment.body}} </br/> {{comment.ts |fromNow }}
+
+
+
+            <div ng-repeat="comment in shit.comments | orderBy:'ts':true" style="padding: 0px; margin: 0px" >
+              {{comment.body}} </br/> {{comment.ts |fromNow }} <a href="/u/xc0nradx"> xc0nradx </a>
+              <hr />
             </div>
 
-            <textarea ng-model="shit.comment.body" class="form-control"></textarea>
+
+            <div class="form-group" style="text-align: left">
+              <label> Comment </label>
+              <textarea ng-model="shit.comment.body" class="form-control"></textarea>
+            </div>
             <button ng-click="addComment(shit)" class="btn btn-primary pull-right">Save Comment</button>
             <span class="clearfix"> </span>
           </div>
