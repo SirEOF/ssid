@@ -1,115 +1,117 @@
 <script src="/js/s3upload.js"> </script>
 
-<div class="btn-group pull-right">
-  <button type="button" class="btn btn-primary" ng-class="{active: shitMode=='new'}" ng-click="shitMode = 'new'"> New </button>
-  <button type="button" class="btn btn-primary" ng-class="{active: shitMode=='top'}" ng-click="shitMode = 'top'"> Top </button>
-  <button type="button" class="btn btn-primary" ng-class="{active: shitMode=='controversial'}" ng-click="shitMode = 'controversial'"> Controversial </button>
-</div>
 
-<button ng-show="!newShitMode" ng-click="newShitMode = !newShitMode" class="btn btn-success"> I did something stuipid. </button>
+<div class="row">
+  <div class="col-md-9">
 
-<div class="well" ng-show="newShitMode">
-  <div class="form-group">
-    <label>Text/Link</label>
-    <textarea class="form-control" style="width: 100%" ng-model="newShit.body"></textarea>
-  </div>
-
-  <hr />
-  <div style="text-align: center">
-    <p> - OR - </p>
-  </div>
-
-  <div class="form-group">
-    <label>Title</label>
-    <input type="text" ng-model="newShit.title" placeholder="title" class="form-control"> </input>
-  </div>
-
-  <div class="row">
-    <div class="col-md-4">
-      <h4> Image </h4>
-      <input type="file" id="files"/>
-      <input type="hidden" ng-model="s3_url" id="s3_url">
-      <div ng-if="newShit.img">
-        <img ng-src="{{newShit.img}}" style="width: 100%">
-      </div>
-
-      <div class="progress" ng-show="progress">
-        <div class="progress-bar" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width : ( progress + '%' ) }">
-          <span class="sr-only">{{progress}}% Complete</span>
-        </div>
-      </div>
+    `<div class="btn-group pull-right">
+      <button type="button" class="btn btn-primary" ng-class="{active: shitMode=='new'}" ng-click="shitMode = 'new'"> New </button>
+      <button type="button" class="btn btn-primary" ng-class="{active: shitMode=='top'}" ng-click="shitMode = 'top'"> Top </button>
+      <button type="button" class="btn btn-primary" ng-class="{active: shitMode=='controversial'}" ng-click="shitMode = 'controversial'"> Controversial </button>
     </div>
 
-    <div class="col-md-4">
-      <h4>Youtube</h4>
+    <button ng-show="!newShitMode" ng-click="newShitMode = !newShitMode" class="btn btn-success"> I did something stuipid. </button>
+
+    <div class="well" ng-show="newShitMode">
       <div class="form-group">
-        <label>URL</label>
-        <input type="text" ng-model="newShit.youtube" class="form-control" placeholder="https://www.youtube.com/watch?v=video">
+        <label>Text/Link</label>
+        <textarea class="form-control" style="width: 100%" ng-model="newShit.body"></textarea>
       </div>
-    </div>
 
-    <div class="col-md-4">
-      <h4>Vine</h4>
+      <hr />
+      <div style="text-align: center">
+        <p> - OR - </p>
+      </div>
+
       <div class="form-group">
-        <label>URL</label>
-        <input type="text" ng-model="newShit.vine" class="form-control" placeholder="https://vine.co/v/video_id">
-      </div>
-    </div>
-  </div>
-
-
-  <button ng-click="postShit()" class="btn btn-primary pull-right"> I did this! </button>
-  <span class="clearfix"> </span>
-</div>
-<br /> <br />
-
-<div ng-repeat="shit in shits">
-  <div class="well well-sm">
-
-    <div class="pull-left" style="text-align: center">
-      <span ng-click="upvote(shit);" style='font-size: 24px; color: green' class="glyphicon glyphicon-hand-up"></span> <br />
-      <p> {{shit.score}} </p>
-      <span ng-click="downvote(shit);" style="font-size: 24px; color: red" class="glyphicon glyphicon-hand-down"></span>
-    </div>
-
-
-    <div ng-click="goto(shit);">
-      <div ng-show="shit.title">
-        <p style="font-size: 24px">{{shit.title}}</p>
+        <label>Title</label>
+        <input type="text" ng-model="newShit.title" placeholder="title" class="form-control"> </input>
       </div>
 
-      <div style="padding-left: 30px; font-size: 24px; font-weight: 200">
+      <div class="row">
+        <div class="col-md-4">
+          <h4> Image </h4>
+          <input type="file" id="files"/>
+          <input type="hidden" ng-model="s3_url" id="s3_url">
+          <div ng-if="newShit.img">
+            <img ng-src="{{newShit.img}}" style="width: 100%">
+          </div>
 
-        <div ng-show="shit.body">
-          <p ng-bind="shit.body"></p>
+          <div class="progress" ng-show="progress">
+            <div class="progress-bar" role="progressbar" aria-valuenow="{{progress}}" aria-valuemin="0" aria-valuemax="100" ng-style="{width : ( progress + '%' ) }">
+              <span class="sr-only">{{progress}}% Complete</span>
+            </div>
+          </div>
         </div>
 
-        <div ng-if="shit.img">
-          <img ng-src="{{shit.img}}">
+        <div class="col-md-4">
+          <h4>Youtube</h4>
+          <div class="form-group">
+            <label>URL</label>
+            <input type="text" ng-model="newShit.youtube" class="form-control" placeholder="https://www.youtube.com/watch?v=video">
+          </div>
         </div>
 
-        <div ng-if="shit.youtube">
-          <iframe width="560" height="315" ng-src="{{shit.youtube | trusted}}" frameborder="0" allowfullscreen></iframe>
+        <div class="col-md-4">
+          <h4>Vine</h4>
+          <div class="form-group">
+            <label>URL</label>
+            <input type="text" ng-model="newShit.vine" class="form-control" placeholder="https://vine.co/v/video_id">
+          </div>
         </div>
       </div>
 
-    </div>
 
-    <p class="pull-right" ng-show="!shit.commentMode">
-      <a ng-click="shit.commentMode = !shit.commentMode"> Show Comments ({{shit.comments.length}}) </a>
-      {{shit.ts | fromNow}}
-    </p>
-    <span class="clearfix"> </span>
-    <div ng-show="shit.commentMode">
-
-      <div ng-repeat="comment in shit.comments | orderBy:'ts':true" ng-clas="well well-sm" style="padding: 20px; text-align: right; border: 1px solid">
-        {{comment.body}} </br/>
-        {{comment.ts |fromNow }}
-      </div>
-
-      <textarea ng-model="shit.comment.body" class="form-control"></textarea>
-      <button ng-click="addComment(shit)" class="btn btn-primary pull-right">Save Comment</button>
+      <button ng-click="postShit()" class="btn btn-primary pull-right"> I did this! </button>
       <span class="clearfix"> </span>
+    </div>
+    <br /> <br />
+
+    <!-- Content -->
+    <div ng-repeat="shit in shits">
+      <div class="panel panel-default">
+        <div ng-click="goto(shit);" class="panel-heading">
+          <h3 class="panel-title">{{shit.title}}</h3>
+        </div>
+        <div class="panel-body">
+
+          <div class="pull-left" style="text-align: center">
+            <span ng-click="upvote(shit);" style='font-size: 24px; color: green' class="glyphicon glyphicon-hand-up"></span> <br />
+            <p> {{shit.score}} </p>
+            <span ng-click="downvote(shit);" style="font-size: 24px; color: red" class="glyphicon glyphicon-hand-down"></span>
+          </div>
+
+          <p style="font-size: 24px; margin-left: 40px; font-weight: 300"> {{shit.body}} </p>
+          <div ng-if="shit.img" style="text-align: center;">
+            <img ng-src="{{shit.img}}">
+          </div>
+
+          <div ng-if="shit.youtube" style="text-align: center;">
+            <iframe width="560" height="315" ng-src="{{shit.youtube | trusted}}" frameborder="0" allowfullscreen></iframe>
+          </div>
+
+          <!-- Comments -->
+          <p class="pull-right" ng-show="!shit.commentMode" style="margin: 0px">
+            <a ng-click="shit.commentMode = !shit.commentMode"> Show Comments ({{shit.comments.length}}) </a> {{shit.ts | fromNow}} </p>
+          <span class="clearfix"> </span>
+          <div ng-if="shit.commentMode">
+
+            <div ng-repeat="comment in shit.comments | orderBy:'ts':true" ng-clas="well well-sm" style="padding: 20px; text-align: right; border: 1px solid">
+              {{comment.body}} </br/> {{comment.ts |fromNow }}
+            </div>
+
+            <textarea ng-model="shit.comment.body" class="form-control"></textarea>
+            <button ng-click="addComment(shit)" class="btn btn-primary pull-right">Save Comment</button>
+            <span class="clearfix"> </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div data-spy="affix" data-offset-top="0" data-offset-bottom="200">
+
+      <img src="http://placehold.it/250x600">
     </div>
   </div>
 </div>
