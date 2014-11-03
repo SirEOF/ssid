@@ -39,6 +39,21 @@ router.get('/shit/top', function (req, res, next) {
   });
 });
 
+
+router.get('/shit/mine', function(req, res, next) {
+  if (!req.user) {
+    return next('must be logged on');
+  }
+  Shit.find({user: req.user._id}, function(err, shits) {
+    if (err) {
+      return next(err);
+    }
+
+    res.json(shits);
+
+  });
+});
+
 router.get('/shit/controversial', function (req, res, next) {
   // XXX Pagination
   Shit.find().sort({up:1, down: 1}).exec(function(err, shits) {

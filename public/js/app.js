@@ -41,15 +41,13 @@ app.service('Shit', function($resource) {
     query: {url: '/api/shit/:mode', method: 'GET', isArray: true},
     upvote: {url: '/api/shit/:id/upvote', method: 'POST'},
     downvote: {url: '/api/shit/:id/downvote', method: 'POST'},
-    new: {url: '/api/shit/new', method: 'GET', isArray: true },
-    top: {url: '/api/shit/top', method: 'GET', isArray: true},
-    controversial: {url: '/api/shit/controversial', method: 'GET', isArray: true},
-    comments: {url: '/api/shit/:id/comment', method: 'GET', isArray: true },
-    addComment: {url: '/api/shit/:id/comment', method: 'POST' }});
+    mine: {url: '/api/shit/mine', method: 'GET', isArray: true}});
 });
 
 app.service('Comment', function($resource) {
-  return $resource('/api/shit/:shitId/comment/:id', {id: '@_id', shitId: '@shit'});
+  return $resource('/api/shit/:shitId/comment/:id', {id: '@_id', shitId: '@shit'}, {
+    mine: {url: '/api/comment/mine', method: 'GET', isArray: true}
+  });
 });
 
 app.service('User', function($resource) {
@@ -58,8 +56,11 @@ app.service('User', function($resource) {
   });
 });
 
-app.controller('ProfileController', function($scope, User) {
+app.controller('ProfileController', function($scope, User, Shit, Comment) {
   $scope.me = User.me();
+
+  $scope.shits = Shit.mine();
+  $scope.comments = Comment.mine();
 });
 
 app.controller('HeaderController', function($scope, User) {

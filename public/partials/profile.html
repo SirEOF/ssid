@@ -1,2 +1,12 @@
 <h1> {{me.name}} </h1>
 <h3> {{me.email}} </h3>
+
+<h4> Posts </h4>
+<div ng-repeat="shit in shits">
+  {{shit.score}} <a href="/#/s/{{shit._id}}"> {{shit.title}} {{shit.body}} </a>
+</div>
+
+<h4> Comments </h4>
+<div ng-repeat="comment in comments">
+  <a href="/#/s/{{comment.shit._id}}"> {{comment.body}} </a>
+</div>

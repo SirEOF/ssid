@@ -9,6 +9,21 @@ var Shit = mongoose.model('Shit');
 
 var async = require('async');
 
+
+router.get('/comment/mine', function(req, res, next) {
+  if (!req.user) {
+    return next('must be logged in');
+  }
+
+  Comment.find({user: req.user.id}).populate('shit').exec(function(err, comments) {
+    if (err) {
+      return next(err);
+    }
+
+    return res.json(comments);
+  });
+});
+
 router.get('/shit/:shitId/comment', function(req, res, next){
   async.auto({
     shit: function(next) {
