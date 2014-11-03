@@ -17,6 +17,22 @@ app.config(function($stateProvider, $urlRouterProvider) {
       url: '/s/:shitId',
       templateUrl: 'partials/shit.html',
       controller: 'ShitController'
+    })
+
+    .state('register', {
+      url: '/register',
+      templateUrl: 'partials/register.html'
+    })
+
+    .state('profile', {
+      url: '/profile',
+      templateUrl: 'partials/profile.html',
+      controller: 'ProfileController'
+    })
+
+    .state('login', {
+      url: '/login',
+      templateUrl: 'partials/login.html'
     });
  });
 
@@ -34,6 +50,20 @@ app.service('Shit', function($resource) {
 
 app.service('Comment', function($resource) {
   return $resource('/api/shit/:shitId/comment/:id', {id: '@_id', shitId: '@shit'});
+});
+
+app.service('User', function($resource) {
+  return $resource('/api/user/:id', {id: '@_id'}, {
+    me: {url: '/api/user/me' }
+  });
+});
+
+app.controller('ProfileController', function($scope, User) {
+  $scope.me = User.me();
+});
+
+app.controller('HeaderController', function($scope, User) {
+  $scope.me = User.me();
 });
 
 app.controller('ShitController', function($scope, Shit, Comment, $stateParams) {
