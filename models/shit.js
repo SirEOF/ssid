@@ -9,6 +9,8 @@ var ShitSchema = new Schema({
   youtube: String,
   vine: String,
 
+  user: {type: Schema.Types.ObjectId, ref: 'User'},
+
   ts: {type: Date, default: Date.now},
   up: {type: Number, default: 0},
   down: {type: Number, default: 0},

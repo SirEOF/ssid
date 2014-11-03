@@ -135,7 +135,7 @@
 
 
             <div ng-repeat="comment in shit.comments | orderBy:'ts':true" style="padding: 0px; margin: 0px" >
-              {{comment.body}} </br/> {{comment.ts |fromNow }} <a href="/u/xc0nradx"> xc0nradx </a>
+              {{comment.body}} </br/> {{comment.ts |fromNow }} <a href="/u/{{comment.user._id}}">{{comment.user.name}}</a>
               <hr />
             </div>
 
@@ -145,6 +145,7 @@
               <textarea ng-model="shit.comment.body" class="form-control"></textarea>
             </div>
             <button ng-click="addComment(shit)" class="btn btn-primary pull-right">Save Comment</button>
+            <a class="pull-right btn" ng-click="shit.commentMode = !shit.commentMode"> Close </a>
             <span class="clearfix"> </span>
           </div>
         </div>

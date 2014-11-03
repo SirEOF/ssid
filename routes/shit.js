@@ -61,15 +61,16 @@ router.get('/shit/:id', function(req, res, next) {
 });
 
 router.post('/shit', function(req, res, next) {
-  // XXX MUST BE LOGGED IN
-  // XXX Check embedded security
+  if (!req.user) {
+    return next('must be logged in to post');
+  }
 
   console.log(req.body);
   var s = new Shit(req.body);
+  s.user = req.user._id;
 
   if (s.youtube) {
     var youtubeURL = url.parse(s.youtube, true);
-    console.log(youtubeURL);
     if (youtubeURL.query.v) {
       s.youtube = youtubeURL.query.v;
     } else {

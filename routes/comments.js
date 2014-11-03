@@ -26,7 +26,7 @@ router.get('/shit/:shitId/comment', function(req, res, next){
     },
 
     comments: function(next) {
-      Comment.find({shit: req.params.shitId}, next);
+      Comment.find({shit: req.params.shitId}).populate('user').exec(next);
     }
   }, function(err, results) {
     if (err) {
@@ -37,11 +37,16 @@ router.get('/shit/:shitId/comment', function(req, res, next){
 });
 
 router.post('/shit/:shitId/comment', function(req, res, next) {
+
+  if (!req.user) {
+    return next('must be logged in');
+  }
   // is valid shit?
 
   var c = new Comment({
     shit: req.params.shitId,
-    body: req.body.body
+    body: req.body.body,
+    user: req.user._id
   });
 
   c.save(function(err, comment) {
