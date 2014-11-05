@@ -9,7 +9,6 @@ var Shit = mongoose.model('Shit');
 
 var async = require('async');
 
-
 router.get('/comment/mine', function(req, res, next) {
   if (!req.user) {
     return next('must be logged in');

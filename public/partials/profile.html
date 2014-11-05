@@ -1,5 +1,19 @@
-<h1> {{me.name}} </h1>
-<h3> {{me.email}} </h3>
+<div class="row">
+  <div class="col-md-6">
+    <img ng-src="{{me.picture}}">
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <label>Username</label>
+      <input type="text" class="form-control" ng-model="me.username">
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input type="text" class="form-control" ng-model="me.email">
+    </div>
+  </div>
+</div>
 
 <h4> Posts </h4>
 <div ng-repeat="shit in shits">

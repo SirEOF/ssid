@@ -8,8 +8,8 @@ var bcrypt   = require('bcrypt-nodejs');
 // define the schema for our user model
 var userSchema = new Schema({
 
-  name: String,
-  email: String,
+  username: String,
+  picture: {type: String, default: '/img/default.png' },
   ts: {type: Date, default: Date.now},
 
   local            : {

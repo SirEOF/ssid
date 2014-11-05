@@ -2,6 +2,7 @@
 
 var LocalStrategy = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
+var TwitterStrategy = require('passport-twitter').Strategy;
 
 var passport = require('passport');
 
@@ -34,6 +35,15 @@ router.get('/auth/facebook/callback',
     successRedirect : '/#/',
     failureRedirect : '/#/register'
 }));
+
+router.get('/auth/twitter', passport.authenticate('twitter'));
+
+router.get('/auth/twitter/callback',
+  passport.authenticate('twitter', {
+    successRedirect : '/#/',
+    failureRedirect : '/'
+}));
+
 
 router.get('/auth/logout', function(req, res) {
   req.logout();
@@ -128,7 +138,7 @@ passport.use(new FacebookStrategy({
           newUser.facebook.name  = profile.name.givenName + ' ' + profile.name.familyName; // look at the passport user profile to see how names are returned
           newUser.facebook.email = profile.emails[0].value; // facebook can return multiple emails so we'll take the first
 
-          newUser.name = newUser.facebook.name;
+          newUser.username = newUser.facebook.name;
           newUser.email = newUser.facebook.email;
 
           newUser.save(function(err) {
@@ -142,5 +152,39 @@ passport.use(new FacebookStrategy({
     });
 }));
 
+passport.use(new TwitterStrategy({
+    consumerKey     : process.env.TWITTER_CONSUMER_KEY,
+    consumerSecret  : process.env.TWITTER_CONSUMER_SECRET,
+    callbackURL     : '/auth/twitter/callback'
+  },
+  function(token, tokenSecret, profile, done) {
+    process.nextTick(function() {
+
+      User.findOne({ 'twitter.id' : profile.id }, function(err, user) {
+
+        if (err)
+          return done(err);
+
+        if (user) {
+            return done(null, user); // user found, return that user
+        } else {
+            var newUser                 = new User();
+
+            newUser.twitter.id          = profile.id;
+            newUser.twitter.token       = token;
+            newUser.twitter.username    = profile.username;
+            newUser.twitter.displayName = profile.displayName;
+
+            newUser.username = newUser.twitter.username;
+
+            newUser.save(function(err) {
+                if (err)
+                    throw err;
+                return done(null, newUser);
+            });
+          }
+      });
+  });
+}));
 
 module.exports = router;
