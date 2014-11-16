@@ -10,6 +10,11 @@ var Shit = mongoose.model('Shit');
 var async = require('async');
 
 router.post('/shit/:shitId/:voteType', function(req, res, next) {
+
+  if (!req.user) {
+    return next('must be logged in');
+  }
+
   if (req.params.voteType !== 'upvote' && req.params.voteType !== 'downvote') {
     return next('Not a valid vote type');
   }
@@ -29,25 +34,31 @@ router.post('/shit/:shitId/:voteType', function(req, res, next) {
       });
     },
 
-    // previousVote: function(next) {
-    //   // CHECK FOR USER...
-    //   Vote.findOne({shit: req.params.shit_id})
-    // }
+    previousVote: function(next) {
+      Vote.findOne({shit: req.params.shitId, user: req.user._id}, next);
+    },
 
-    vote: ['shit', function(next) {
+    vote: ['shit', 'previousVote', function(next, results) {
+      var previous = results.previousVote;
+
+      if (previous) {
+        return next('already voted');
+      }
+
       var v = new Vote({
         shit: req.params.shitId,
-        voteType: req.params.voteType
+        voteType: req.params.voteType,
+        user: req.user._id
       });
 
       v.save(next);
     }],
 
-    updateShit: ['shit', function(next) {
+    updateShit: ['shit', 'vote', 'previousVote', function(next) {
       if (req.params.voteType === 'upvote') {
         Shit.findByIdAndUpdate(req.params.shitId, {$inc: { up: 1, score: 1 }}, next);
       } else if (req.params.voteType === 'downvote') {
-        Shit.findByIdAndUpdate(req.params.shitId, {$inc: { up: -1, score: -1 }}, next);
+        Shit.findByIdAndUpdate(req.params.shitId, {$inc: { down: 1, score: -1 }}, next);
       } else {
         return next('not a valid vote type, up or down only');
       }
