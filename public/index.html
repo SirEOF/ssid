@@ -23,7 +23,7 @@
             <li> <a ui-sref="home">Stupid Shit I Do </a> </li>
           </ul>
 
-        <span ng-hide="me.name" class="pull-right">
+        <span ng-hide="me.username" class="pull-right">
           <ul class="nav nav-pills">
             <li> <a ui-sref="register">Register</a> </li>
             <li> <a ui-sref="login">Login</a> </li>
@@ -31,12 +31,12 @@
         </span>
 
 
-        <span ng-if="me.name" class="pull-right">
+        <span ng-if="me.username" class="pull-right">
           <ul class="nav nav-pills">
 
             <li class="dropdown">
               <a class="dropdown-toggle" data-toggle="dropdown">
-                {{me.name}} <span class="caret"></span>
+                {{me.username}} <span class="caret"></span>
               </a>
               <ul class="dropdown-menu dropdown-menu-right" role="menu">
                 <li> <a ui-sref="profile">Profile</a> </li>

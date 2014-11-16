@@ -41,7 +41,7 @@ router.get('/auth/twitter', passport.authenticate('twitter'));
 router.get('/auth/twitter/callback',
   passport.authenticate('twitter', {
     successRedirect : '/#/',
-    failureRedirect : '/'
+    failureRedirect : '/#/register'
 }));
 
 
@@ -79,6 +79,7 @@ passport.use('local-signup', new LocalStrategy({
 
         var newUser            = new User();
 
+        newUser.username       = req.body.username;
         newUser.local.email    = email;
         newUser.local.password = newUser.generateHash(password);
 
